@@ -1,4 +1,4 @@
-package com.github.matthewdowney.roku;
+package com.github.hitch17.roku;
 
 import java.awt.*;
 import javax.swing.*;

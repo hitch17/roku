@@ -1,14 +1,10 @@
-package com.github.matthewdowney.roku;
+package com.github.hitch17.roku;
 
 /* Send a multicast SSDP M-SEARCH request to
  * find the IP Address of a Roku
  * device. For more info go to: 
  * https://sdkdocs.roku.com/display/sdkdoc/External+Control+API
  */
-
-import static com.github.matthewdowney.roku.Console.BLUE;
-import static com.github.matthewdowney.roku.Console.NORMAL;
-import static com.github.matthewdowney.roku.Console.PURPLE;
 
 import java.net.*;
 import java.util.ArrayList;
@@ -72,7 +68,7 @@ class RokuScan {
 		/* array list to hold our found addresses */
 		ArrayList<String> arrayList = new ArrayList<String>();
 
-		System.out.print(BLUE + "[*] " + PURPLE + "Progress: (00/20)");
+		System.out.print(Console.BLUE + "[*] " + Console.PURPLE + "Progress: (00/20)");
 		/* scan 20 times to try to get all the devices */
 		String address;
 		for (int i = 0; i < 20; i++) {
@@ -90,7 +86,7 @@ class RokuScan {
 			} catch (Exception e) {
 			}
 		}
-		System.out.println(NORMAL);
+		System.out.println(Console.NORMAL);
 
 		/* convert our result ArrayList to an array */
 		String[] returnArray = new String[arrayList.size()];
@@ -105,7 +101,7 @@ class RokuScan {
 	 */
 	private static void status(String msg) {
 		if (VERBOSE) {
-      System.out.println(BLUE + "[*] " + PURPLE + msg + NORMAL);
+      System.out.println(Console.BLUE + "[*] " + Console.PURPLE + msg + Console.NORMAL);
     }
 	}
 

@@ -1,7 +1,7 @@
-package com.github.matthewdowney.roku;
+package com.github.hitch17.roku;
 
+import java.util.Collection;
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.io.*;
 import java.lang.System;
 
@@ -130,68 +130,18 @@ public class Console {
       }
 			return "No last address found.";
 		} else if (input.equals("find")) {
-			/* build a list of threads to run based on the thread count */
-			System.out.println(BLUE + "[*] " + PURPLE + "Creating " + Scan.THREAD_COUNT + " MSEARCH requests to 239.255.255.250 on port 1900..." + NORMAL);
-			ArrayList<Scan> threads = new ArrayList<Scan>();
-			for (int i = 0; i < Scan.THREAD_COUNT; i++) {
-        threads.add(new Scan());
-      }
-
-			/* start each thread */
-			System.out.println(BLUE + "[*] " + PURPLE + "Sending multicast SSDP MSEARCH requests..." + NORMAL);
-			for (Scan scan : threads) {
-        scan.start();
-      }
-
-			/* wait for a response */
-			System.out.println(BLUE + "[*] " + PURPLE + "Waiting for network response..." + NORMAL);
-			while (Scan.results.size() == 0) {
-				try { Thread.sleep(10); } catch (Exception e) {}
-			}
-
-			/* stop each thread */
-			for (Scan scan : threads) {
-        scan.interrupt();
-      }
-
-			/* display results */
-			String result = Scan.results.get(0);
-			System.out.println(BLUE + "[*] " + PURPLE + "Found Roku at " + result + "..." + NORMAL);
-			process("connect " + result);
-			return "";
+      System.out.println(BLUE + "[*] " + PURPLE + "Creating MSEARCH requests to 239.255.255.250 on port 1900..." + NORMAL);
+      Scan scan = new Scan();
+      Collection<String> rokus = scan.scanForRokus();
+      String result = rokus.iterator().next();
+      return result;
 		} else if (input.equals("find all")) {
-			/* build a list of threads to run based on the thread count */
-			System.out.println(BLUE + "[*] " + PURPLE + "Scanning, press [ENTER] when done..." + NORMAL);
-			ArrayList<Scan> threads = new ArrayList<Scan>();
-			for (int i = 0; i < Scan.THREAD_COUNT; i++) {
-        threads.add(new Scan());
+      Scan scan = new Scan();
+      StringBuilder rokus = new StringBuilder();
+      for (String roku : scan.scanForRokus()) {
+        rokus.append(roku).append('\n');
       }
-
-			/* start each thread */
-			for (Scan scan : threads) {
-        scan.start();
-      }
-
-			/* wait for a response */
-			Scan.spontaneousOutput = true;
-			System.out.println(BLUE + "[*] " + PURPLE + "Results: " + NORMAL);
-			Scanner scannerEnter = new Scanner(System.in);
-			String possiblyEnter;
-			while (scannerEnter.hasNextLine()) {
-				possiblyEnter = scannerEnter.nextLine();
-				if (possiblyEnter.trim().equals("")) {
-					System.out.println(BLUE + "[*] " + PURPLE + "Scan complete" + NORMAL);
-					Scan.spontaneousOutput = false;
-					break;
-				}
-			}
-
-			/* stop each thread */
-			for (Scan scan : threads) {
-        scan.interrupt();
-      }
-
-			return "\b\b";
+      return rokus.toString();
 		} else if (input.equals("uninstall")) {
 			return "To uninstall roku, navigate to /etc/roku and run sudo ./uninstall";
 		} else if (input.equals("amazon")) {

@@ -1,8 +1,8 @@
-package com.github.matthewdowney.roku;
+package com.github.hitch17.roku;
 
-import static com.github.matthewdowney.roku.Console.BLUE;
-import static com.github.matthewdowney.roku.Console.NORMAL;
-import static com.github.matthewdowney.roku.Console.PURPLE;
+import static com.github.hitch17.roku.Console.BLUE;
+import static com.github.hitch17.roku.Console.NORMAL;
+import static com.github.hitch17.roku.Console.PURPLE;
 
 import java.io.*;
 import java.net.HttpURLConnection;
