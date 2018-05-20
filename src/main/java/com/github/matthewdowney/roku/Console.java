@@ -17,7 +17,7 @@ public class Console {
 	private static String tagline = BLUE + "roku(not connected)~$ " + NORMAL;
 
 	/* list of commands that can be passed straight to the roku */
-	private static String rokucommands = "|home|rev|fwd|play|select|left|right|down|up|back|instantreplay|info|backspace|search|enter|";
+	private static String rokucommands = "|home|rev|fwd|play|select|left|right|down|up|back|instantreplay|info|backspace|search|enter|volumeup|volumedown|volumemute|power|";
 
 	/* file to store the last connected address in */
 	private static String lastaddrfile = System.getProperty("java.io.tmpdir") + "/lastaddress.conf";
