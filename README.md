@@ -1,3 +1,7 @@
+This is a fork of https://github.com/matthewdowney/roku and includes a patch from https://github.com/giflw/roku. 
+
+All I've done is some code reorganization and formatting, then add power and volume controls for my Roku TV.
+
 This roku tool was written to allow access to a Roku box from the command line. It also includes a simple GUI.
   Installation  
 ================
