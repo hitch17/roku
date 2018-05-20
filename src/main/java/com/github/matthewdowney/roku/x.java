@@ -1,16 +1,11 @@
+package com.github.matthewdowney.roku;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import javax.swing.JOptionPane;
-import java.awt.Robot;
-import java.awt.AWTException;
-import java.awt.event.InputEvent;
-import java.awt.MouseInfo;
 import java.awt.Color;
-import java.awt.datatransfer.*;
-import java.awt.Toolkit;
- 
-public class x extends JFrame {
+
+public class X extends JFrame {
     //the address of the roku
     private String address = "";
     //the roku object for later
@@ -69,7 +64,7 @@ public class x extends JFrame {
 
     }
      
-    public x(String addr) {
+    public X(String addr) {
 	//update the address with the value provided
 	address = addr;
 	//update the roku object
@@ -109,6 +104,6 @@ public class x extends JFrame {
     }
      
     public static void main(String[] args) {
-    	x Window = new x("192.168.1.25");
+      X Window = new X("192.168.1.25");
     }
 }

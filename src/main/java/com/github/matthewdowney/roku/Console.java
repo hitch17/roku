@@ -1,9 +1,11 @@
+package com.github.matthewdowney.roku;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.*;
 import java.lang.System;
 
-public class console {
+public class Console {
 	/* constants for changing terminal output color */
 	private static final String BLUE = "\033[94m";
 	private static final String PURPLE = "\033[95m";
@@ -212,7 +214,7 @@ public class console {
 			return "Executed down...";
 		}
 		else if (input.equals("x")) {
-			x Window = new x(address);
+			X Window = new X(address);
 			return "\b";
 		}
 		else if (input.startsWith("type ")) {

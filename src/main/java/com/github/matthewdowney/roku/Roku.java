@@ -1,3 +1,5 @@
+package com.github.matthewdowney.roku;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -99,6 +101,7 @@ public class Roku {
 	public void setDelay(int d) {
 		TYPE_DELAY = d;
 	}
+
 	private String sendPost(String url) {
 		try {
 			URL obj = new URL(url);

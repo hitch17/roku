@@ -1,4 +1,6 @@
-/* Send a multicast SSDP M-SEARCH request to 
+package com.github.matthewdowney.roku;
+
+/* Send a multicast SSDP M-SEARCH request to
  * find the IP Address of a Roku
  * device. For more info go to: 
  * http://sdkdocs.roku.com/display/sdkdoc/External+Control+Guide 

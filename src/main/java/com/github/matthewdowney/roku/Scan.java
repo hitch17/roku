@@ -1,4 +1,6 @@
-/* Send a multicast SSDP M-SEARCH request on multiple threads to 
+package com.github.matthewdowney.roku;
+
+/* Send a multicast SSDP M-SEARCH request on multiple threads to
  * find the addresses of all Rokus on the network.
  * device. For more info go to: 
  * http://sdkdocs.roku.com/display/sdkdoc/External+Control+Guide 
