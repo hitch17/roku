@@ -3,19 +3,19 @@ package com.github.matthewdowney.roku;
 /* Send a multicast SSDP M-SEARCH request to
  * find the IP Address of a Roku
  * device. For more info go to: 
- * http://sdkdocs.roku.com/display/sdkdoc/External+Control+Guide 
+ * https://sdkdocs.roku.com/display/sdkdoc/External+Control+API
  */
+
+import static com.github.matthewdowney.roku.Console.BLUE;
+import static com.github.matthewdowney.roku.Console.NORMAL;
+import static com.github.matthewdowney.roku.Console.PURPLE;
 
 import java.net.*;
 import java.util.ArrayList;
 
 class RokuScan {
-        /* constants for changing terminal output color */
-        private static final String BLUE = "\033[94m";
-        private static final String PURPLE = "\033[95m";
-        private static final String NORMAL = "\033[0m";
-	
-	public static boolean verbose = true;
+
+	public static final boolean VERBOSE = true;
 
 	/**
 	 * Scan the local area network for a single Roku device
@@ -23,7 +23,7 @@ class RokuScan {
 	 */
 	public static String scanForRoku() throws Exception {
 		/* create byte arrays to hold our send and response data */
-		byte[] sendData = new byte[1024];
+		byte[] sendData = null;
 		byte[] receiveData = new byte[1024];
 
 		/* our M-SEARCH data as a byte array */
@@ -104,8 +104,9 @@ class RokuScan {
 	 * Print a status message with a specific color & format
 	 */
 	private static void status(String msg) {
-		if (verbose)
-			System.out.println(BLUE + "[*] " + PURPLE + msg + NORMAL);
+		if (VERBOSE) {
+      System.out.println(BLUE + "[*] " + PURPLE + msg + NORMAL);
+    }
 	}
 
 }

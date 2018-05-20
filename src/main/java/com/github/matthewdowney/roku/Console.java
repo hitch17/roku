@@ -6,10 +6,11 @@ import java.io.*;
 import java.lang.System;
 
 public class Console {
+
 	/* constants for changing terminal output color */
-	private static final String BLUE = "\033[94m";
-	private static final String PURPLE = "\033[95m";
-	private static final String NORMAL = "\033[0m";
+	public static final String BLUE = "\033[94m";
+  public static final String PURPLE = "\033[95m";
+  public static final String NORMAL = "\033[0m";
 
 	/* display variables */
 	private static String address = "not connected";
@@ -22,7 +23,7 @@ public class Console {
 	private static String lastaddrfile = System.getProperty("java.io.tmpdir") + "/lastaddress.conf";
 
 	/* roku control object */
-	private static Roku r = new Roku("");
+	private static Roku r = null;
 
 	/**
 	 * Connect to the last used address -- if present -- and then
@@ -115,33 +116,32 @@ public class Console {
 	 */
 	private static String process( String rawinput ) {
 		String input = rawinput.trim().toLowerCase();
-		String status;
-		if (input.equals("exit"))
-			System.exit(1);
-		else if (input.equals("help")) {
+		if (input.equals("exit")) {
+      System.exit(1);
+    } else if (input.equals("help")) {
 			return NORMAL + "General Commands:"+"\n"+"\thelp\t\tdisplay this message"+"\n"+"\tlast\t\tconnect to the last IP Address used"+"\n"+"\tfind\t\tscan the network for a Roku device and connect to it"+"\n"+ "\tfind all\tscan the network for multiple roku devices and display their addresses\n" + "\texit\t\texit the terminal"+"\n"+"\tuninstall\tdisplay uninstall instructions"+"\n"+"\t"+"\n"+"Roku Commands:"+"\n"+"\tconnect <ip address>"+"\n"+"\ttype <text>"+"\n"+"\thome"+"\n"+"\tplay"+"\n"+"\tselect"+"\n"+"\tleft/right/up/down (l/r/u/d for short)"+"\n"+"\tinstantreplay"+"\n"+"\tnetflix"+"\n"+"\tamazon"+"\n"+"\tsearch"+"\n"+"\tx (access a GUI to control with arrow keys)"+"\n"+""+"\n"+"";
-		}
-		else if (input.equals("netflix")) {
+		} else if (input.equals("netflix")) {
 			r.netflix();
 			return "Launched netflix...";
-		}
-		else if (input.equals("last")) {
+		} else if (input.equals("last")) {
 			address = getAddress(lastaddrfile);			
-			if (!address.equals("null"))
-				return process("connect " + address);
+			if (!address.equals("null")) {
+        return process("connect " + address);
+      }
 			return "No last address found.";
-		}
-		else if (input.equals("find")) {
+		} else if (input.equals("find")) {
 			/* build a list of threads to run based on the thread count */
-			System.out.println(BLUE + "[*] " + PURPLE + "Creating " + Scan.threadCount + " MSEARCH requests to 239.255.255.250 on port 1900..." + NORMAL);
+			System.out.println(BLUE + "[*] " + PURPLE + "Creating " + Scan.THREAD_COUNT + " MSEARCH requests to 239.255.255.250 on port 1900..." + NORMAL);
 			ArrayList<Scan> threads = new ArrayList<Scan>();
-			for (int i = 0; i < Scan.threadCount; i++) 
-				threads.add(new Scan());
+			for (int i = 0; i < Scan.THREAD_COUNT; i++) {
+        threads.add(new Scan());
+      }
 
 			/* start each thread */
 			System.out.println(BLUE + "[*] " + PURPLE + "Sending multicast SSDP MSEARCH requests..." + NORMAL);
-			for (Scan scan : threads)
-				scan.start();
+			for (Scan scan : threads) {
+        scan.start();
+      }
 
 			/* wait for a response */
 			System.out.println(BLUE + "[*] " + PURPLE + "Waiting for network response..." + NORMAL);
@@ -150,25 +150,27 @@ public class Console {
 			}
 
 			/* stop each thread */
-			for (Scan scan : threads)
-				scan.interrupt();
+			for (Scan scan : threads) {
+        scan.interrupt();
+      }
 
 			/* display results */
 			String result = Scan.results.get(0);
 			System.out.println(BLUE + "[*] " + PURPLE + "Found Roku at " + result + "..." + NORMAL);
 			process("connect " + result);
 			return "";
-		}
-		else if (input.equals("find all")) {
+		} else if (input.equals("find all")) {
 			/* build a list of threads to run based on the thread count */
 			System.out.println(BLUE + "[*] " + PURPLE + "Scanning, press [ENTER] when done..." + NORMAL);
 			ArrayList<Scan> threads = new ArrayList<Scan>();
-			for (int i = 0; i < Scan.threadCount; i++) 
-				threads.add(new Scan());
+			for (int i = 0; i < Scan.THREAD_COUNT; i++) {
+        threads.add(new Scan());
+      }
 
 			/* start each thread */
-			for (Scan scan : threads)
-				scan.start();
+			for (Scan scan : threads) {
+        scan.start();
+      }
 
 			/* wait for a response */
 			Scan.spontaneousOutput = true;
@@ -185,51 +187,42 @@ public class Console {
 			}
 
 			/* stop each thread */
-			for (Scan scan : threads)
-				scan.interrupt();
-			
+			for (Scan scan : threads) {
+        scan.interrupt();
+      }
+
 			return "\b\b";
-		}
-		else if (input.equals("uninstall")) {
+		} else if (input.equals("uninstall")) {
 			return "To uninstall roku, navigate to /etc/roku and run sudo ./uninstall";
-		}
-		else if (input.equals("amazon")) {
+		} else if (input.equals("amazon")) {
 			r.amazon();
 			return "Launched amazon...";
-		}
-		else if (input.equals("l")) {
+		} else if (input.equals("l")) {
 			r.keypress("left");
 			return "Executed left...";
-		}
-		else if (input.equals("r")) {
+		} else if (input.equals("r")) {
 			r.keypress("right");
 			return "Executed right...";
-		}
-		else if (input.equals("u")) {
+		} else if (input.equals("u")) {
 			r.keypress("up");
 			return "Executed up...";
-		}
-		else if (input.equals("d")) {
+		} else if (input.equals("d")) {
 			r.keypress("down");
 			return "Executed down...";
-		}
-		else if (input.equals("x")) {
-			X Window = new X(address);
+		} else if (input.equals("x")) {
+			new X(address);
 			return "\b";
-		}
-		else if (input.startsWith("type ")) {
-			status = r.enterString(input.substring(5));
+		} else if (input.startsWith("type ")) {
+			r.enterString(input.substring(5));
 			return "Executed " + input + "...";
-		}
-		else if (input.startsWith("connect ")) {
+		} else if (input.startsWith("connect ")) {
 			r = new Roku(input.substring(8));
 			address = input.substring(8);
 			tagline = BLUE + "roku@" + input.substring(8) + "~$ " + NORMAL;
 			putAddress(lastaddrfile, address);
 			return "";
-		}
-		else if (rokucommands.contains("|" + input + "|")) {
-			status = r.keypress(input);
+		} else if (rokucommands.contains("|" + input + "|")) {
+			r.keypress(input);
 			return "Executed " + input + "...";
 		}
 		return "Unrecognized command \"" + rawinput + "\" - use \"help\" for a list of commands.";

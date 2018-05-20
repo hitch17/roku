@@ -3,8 +3,12 @@ package com.github.matthewdowney.roku;
 /* Send a multicast SSDP M-SEARCH request on multiple threads to
  * find the addresses of all Rokus on the network.
  * device. For more info go to: 
- * http://sdkdocs.roku.com/display/sdkdoc/External+Control+Guide 
+ * https://sdkdocs.roku.com/display/sdkdoc/External+Control+API
  */
+
+import static com.github.matthewdowney.roku.Console.BLUE;
+import static com.github.matthewdowney.roku.Console.NORMAL;
+import static com.github.matthewdowney.roku.Console.PURPLE;
 
 import java.net.*;
 import java.util.ArrayList;
@@ -17,17 +21,12 @@ class Scan extends Thread {
 	public static ArrayList<String> results = new ArrayList<String>();
 
 	/* we use this to determine how many threads to create */
-	public static final int threadCount = 5;
+	public static final int THREAD_COUNT = 5;
 
 	/* whether or not we print to the command line for each result */
 	public static boolean spontaneousOutput = false;
 
-	/* constants for changing terminal output color */
-	private static final String BLUE = "\033[94m";
-	private static final String PURPLE = "\033[95m";
-	private static final String NORMAL = "\033[0m";
-
-	public static boolean verbose = true;
+	public static final boolean VERBOSE = true;
 
 	/**
 	 * Scan the local area network for a single Roku device
@@ -62,9 +61,9 @@ class Scan extends Thread {
 
 			/* parse the IP from the response */
 			/* the response should contain a line like:
-Location:  http://192.168.1.9:8060/
-and we're only interested in the address -- not the port.
-So we find the line, then split it at the http:// and the : to get the address.
+      Location:  http://192.168.1.9:8060/
+      and we're only interested in the address -- not the port.
+      So we find the line, then split it at the http:// and the : to get the address.
 			 */
 			response = response.toLowerCase();
 			String address = response.split("location:")[1].split("\n")[0].split("http://")[1].split(":")[0].trim();
@@ -90,8 +89,9 @@ So we find the line, then split it at the http:// and the : to get the address.
 				addr = scanForRoku();
 				if (!addr.equals("none")) {
 					if (!Scan.results.contains(addr)) {
-						if (spontaneousOutput)
-							System.out.println("\t" + addr);
+						if (spontaneousOutput) {
+              System.out.println("\t" + addr);
+            }
 						Scan.results.add(addr);
 					}
 				}
@@ -107,8 +107,9 @@ So we find the line, then split it at the http:// and the : to get the address.
 	 * Print a status message with a specific color & format
 	 */
 	private static void status(String msg) {
-		if (verbose)
-			System.out.println(BLUE + "[*] " + PURPLE + msg + NORMAL);
+		if (VERBOSE) {
+      System.out.println(BLUE + "[*] " + PURPLE + msg + NORMAL);
+    }
 	}
 
 }
